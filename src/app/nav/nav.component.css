@@ -1,0 +1,6 @@
+.dropdown-toggle, .dropdown-item {
+  cursor: pointer;
+}
+.nav-link {
+  font-size: large;
+}

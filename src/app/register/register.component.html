@@ -1,0 +1,230 @@
+<form #registerForm="ngForm" (ngSubmit)="register()" class="container">
+  <div class="col-12">
+    <fieldset>
+      <legend class="mt-4">New User Registration Form</legend>
+      <hr />
+      <div class="form-group">
+        <label for="name" class="form-label mt-4">Email</label>
+        <input
+          [(ngModel)]="registerModel.email"
+          type="email"
+          class="form-control mr-sm-2"
+          id="email"
+          name="email"
+          placeholder="Email address"
+          required
+          email
+          #email="ngModel"
+          [ngClass]="{ 'is-invalid': !email.valid && email.touched }"
+        />
+        <div
+          *ngIf="!email.valid && email.touched"
+          class="invalid-feedback d-block"
+        >
+          Please enter a valid email address.
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="name" class="form-label mt-4">First Name</label>
+        <input
+          [(ngModel)]="registerModel.firstName"
+          type="text"
+          class="form-control mr-sm-2"
+          id="firstName"
+          name="firstName"
+          placeholder="First Name"
+          required
+          #firstName="ngModel"
+          [ngClass]="{ 'is-invalid': !firstName.valid && firstName.touched }"
+        />
+        <div
+          *ngIf="!firstName.valid && firstName.touched"
+          class="invalid-feedback d-block"
+        >
+          First Name is required.
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="name" class="form-label mt-4">Last Name</label>
+        <input
+          [(ngModel)]="registerModel.lastName"
+          type="text"
+          class="form-control mr-sm-2"
+          id="lastName"
+          name="lastName"
+          placeholder="Last Name"
+          required
+          #lastName="ngModel"
+          [ngClass]="{ 'is-invalid': !lastName.valid && lastName.touched }"
+        />
+        <div
+          *ngIf="!lastName.valid && lastName.touched"
+          class="invalid-feedback d-block"
+        >
+          Last Name is required.
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="name" class="form-label mt-4">Username</label>
+        <input
+          [(ngModel)]="registerModel.username"
+          type="text"
+          class="form-control mr-sm-2"
+          id="username"
+          name="username"
+          placeholder="Username"
+          required
+          #username="ngModel"
+          [ngClass]="{ 'is-invalid': !username.valid && username.touched }"
+        />
+        <div
+          *ngIf="!username.valid && username.touched"
+          class="invalid-feedback d-block"
+        >
+          Username is required.
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="name" class="form-label mt-4">Password</label>
+        <input
+          [(ngModel)]="registerModel.password"
+          type="password"
+          class="form-control mr-sm-2"
+          id="password"
+          name="password"
+          placeholder="Password"
+          required
+          #password="ngModel"
+          (change)="passwordChanged(password.value)"
+          [ngClass]="{ 'is-invalid': !password.valid && password.touched }"
+        />
+        <div
+          *ngIf="!password.valid && password.touched"
+          class="invalid-feedback d-block"
+        >
+          Password is required.
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="name" class="form-label mt-4">Confirm Password</label>
+        <input
+          type="password"
+          class="form-control mr-sm-2"
+          id="confirmPassword"
+          name="confirmPassword"
+          placeholder="Confirm Password"
+          required
+          ngModel
+          #confirmPassword="ngModel"
+          (change)="confirmPwdChanged(confirmPassword.value)"
+          [ngClass]="{
+            'is-invalid':
+              (!confirmPassword.valid && confirmPassword.touched) ||
+              !passwordMatch
+          }"
+        />
+        <div
+          *ngIf="!confirmPassword.valid && confirmPassword.touched"
+          class="invalid-feedback d-block"
+        >
+          Confirm password is required.
+        </div>
+        <div *ngIf="!passwordMatch" class="invalid-feedback d-block">
+          Password and confirm password must match.
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="name" class="form-label mt-4">Date of Birth</label>
+        <input
+          [(ngModel)]="registerModel.dateOfBirth"
+          type="date"
+          class="form-control mr-sm-2"
+          id="dateOfBirth"
+          name="dateOfBirth"
+          placeholder="dateOfBirth"
+          required
+          #dateOfBirth="ngModel"
+          [ngClass]="{
+            'is-invalid': !dateOfBirth.valid && dateOfBirth.touched
+          }"
+        />
+        <div
+          *ngIf="!dateOfBirth.valid && dateOfBirth.touched"
+          class="invalid-feedback d-block"
+        >
+          Date Of Birth is required.
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="contactNumber" class="form-label mt-4"
+          >Contact Number</label
+        >
+        <input
+          [(ngModel)]="registerModel.contactNumber"
+          type="cred"
+          id="phone"
+          name="contactNumber"
+          placeholder="Mobile Number"
+          required
+          class="form-control mr-sm-2"
+          id="contactNumber"
+          pattern="[0-9]{10}"
+          required
+          #phNumber="ngModel"
+          [ngClass]="{ 'is-invalid': !phNumber.valid && phNumber.touched }"
+        />
+        <div
+          *ngIf="!phNumber.valid && phNumber.touched"
+          class="invalid-feedback d-block"
+        >
+          Please enter a valid contact number.
+        </div>
+      </div>
+      <label for="componentType" class="form-label mt-4">Gender</label>
+      <div class="form-check">
+        <label class="form-check-label">
+          <input
+            [(ngModel)]="registerModel.gender"
+            type="radio"
+            class="form-check-input"
+            name="gender"
+            id="optionsRadios1"
+            value="Male"
+            required
+          />
+          Male
+        </label>
+      </div>
+      <div class="form-check">
+        <label class="form-check-label">
+          <input
+            [(ngModel)]="registerModel.gender"
+            type="radio"
+            class="form-check-input"
+            name="gender"
+            id="optionsRadios2"
+            value="Female"
+            required
+          />
+          Female
+        </label>
+      </div>
+      <br />
+      <hr />
+      <div class="form-group text-center">
+        <button
+          class="btn btn-success mr-2"
+          type="submit"
+          [disabled]="
+            !(registerForm.valid && registerForm.dirty) || !passwordMatch
+          "
+        >
+          Register
+        </button>
+        <button class="btn btn-danger mr-2" (click)="cancel()" type="button">
+          Cancel
+        </button>
+      </div>
+    </fieldset>
+  </div>
+</form>

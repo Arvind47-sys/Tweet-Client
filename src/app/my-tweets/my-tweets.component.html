@@ -1,0 +1,94 @@
+<ng-container *ngIf="userTweets$ | async as allUserTweets">
+  <div *ngIf="username !== currentUser.username" class="row">
+    <div class="col-6">
+      <h2 class="text-info">
+        {{ name }}
+        <p class="lead">@{{ username }}</p>
+      </h2>
+    </div>
+    <div class="col-6 text-right">
+      <button class="btn btn-primary btn-md mr-2" (click)="backToAllUsers()">
+        Bact to all users
+      </button>
+    </div>
+  </div>
+  <div *ngIf="allUserTweets.length > 0; else noTweetsFound">
+    <div *ngFor="let tweet of allUserTweets">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">
+            #{{ tweet.tag }}
+            <span class="float-right">
+              <h6 class="text-muted mb-2">
+                {{ tweet.postedDate | date: "medium" }}
+              </h6>
+            </span>
+          </h5>
+          <h6 class="card-subtitle mb-2 text-muted">@{{ tweet.username }}</h6>
+          <p class="card-text">{{ tweet.body }}</p>
+          <button class="btn btn-primary btn-sm" (click)="likeClicked(tweet)">
+            <i class="fa fa-heart"> ({{ tweet.likes.length }})</i>
+          </button>
+          <button
+            class="btn btn-primary btn-sm ml-2"
+            (click)="replyClicked(tweet)"
+          >
+            <i class="fa fa-reply"> ({{ tweet.replies.length }})</i>
+          </button>
+          <button
+            class="btn btn-primary btn-sm ml-2 float-right"
+            (click)="viewLikesClicked(tweet)"
+          >
+            <i class="fa fa-eye"> View Likes</i>
+          </button>
+          <div
+            class="container-fluid mt-3"
+            *ngIf="tweet == currentTweet && likeToggle"
+          >
+            <ng-container *ngIf="tweet.likes.length > 0; else noLikes">
+              <div *ngFor="let like of tweet.likes" class="card-title mt-2">
+                <h5 class="mt-3">
+                  @{{ like.likedBy }}
+                  <h6 class="text-muted mb-2">
+                    ({{ like.likedDate | date: "medium" }})
+                  </h6>
+                </h5>
+                <hr />
+              </div>
+            </ng-container>
+            <ng-template #noLikes>
+              <h5 class="mt-3">No Likes!</h5>
+              <hr />
+            </ng-template>
+          </div>
+          <div class="container" *ngIf="tweet == currentTweet && replyToggle">
+            <ng-container *ngFor="let reply of tweet.replies">
+              <h5 class="card-title mt-3 ml-5">
+                {{ reply.reply }}
+                <span class="float-right">
+                  <h6 class="text-muted mb-2">
+                    @{{ reply.repliedBy }} ({{
+                      reply.repliedDate | date: "medium"
+                    }})
+                  </h6>
+                </span>
+              </h5>
+              <hr />
+            </ng-container>
+            <div class="form-group mt-2 ml-5">
+              <input
+                #reply
+                type="text"
+                class="form-control"
+                name="reply"
+                placeholder="Add a reply..."
+                (change)="replied(reply.value, tweet)"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>
+<ng-template #noTweetsFound> No Tweets Found! </ng-template>

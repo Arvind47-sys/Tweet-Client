@@ -1,0 +1,89 @@
+<div *ngIf="(loggedInUserInfo$ | async) === null" class="container">
+  <div *ngIf="!registerMode" class="container mt-5">
+    <div style="text-align: center">
+      <h1>Tweet App</h1>
+      <p class="font-weight-bold">
+        If you are already a registered user go ahead and enter the username and
+        password to login to the application. Or Register by clicking the
+        register button. If you would like to learn more about this application
+        click the Learn more button.
+      </p>
+      <br />
+      <div class="text-center">
+        <button routerLink="/register" class="btn btn-primary btn-lg mr-2">
+          Register
+        </button>
+        <button class="btn btn-dark btn-lg" routerLink="/learn-more">
+          Learn more
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="loggedInUserInfo$ | async as user">
+  <ng-container *ngIf="!togglePostTweet">
+    <div class="row">
+      <div class="col-6">
+        <h2 class="text-info">
+          {{ user.name }}
+          <p class="lead">@{{ user.username }}</p>
+        </h2>
+      </div>
+      <div class="col-6 text-right">
+        <button class="btn btn-primary btn-md mr-2" (click)="postNewTweet()">
+          Post New Tweet
+        </button>
+      </div>
+    </div>
+    <app-my-tweets username="{{ user.username }}"></app-my-tweets>
+  </ng-container>
+
+  <form
+    class="row justify-content-center"
+    #postTweetForm="ngForm"
+    autocomplete="off"
+    *ngIf="togglePostTweet"
+    (ngSubmit)="postTweet()"
+  >
+    <div class="col-4">
+      <h2 class="text-center text-primary">Post New Tweet</h2>
+      <hr />
+      <div class="form-group">
+        <input
+          #tag="ngModel"
+          type="text"
+          class="form-control"
+          name="tag"
+          placeholder="Tag"
+          required
+          [(ngModel)]="postTweetModel.tag"
+        />
+      </div>
+      <div class="form-group">
+        <textarea
+          #body="ngModel"
+          class="form-control"
+          id="exampleFormControlTextarea1"
+          rows="3"
+          name="body"
+          placeholder="Body"
+          required
+          [(ngModel)]="postTweetModel.body"
+        ></textarea>
+      </div>
+      <div class="form-group text-center">
+        <button
+          class="btn btn-success mr-2"
+          type="submit"
+          [disabled]="!(postTweetForm.valid && postTweetForm.dirty)"
+        >
+          Post
+        </button>
+        <button class="btn btn-danger mr-2" (click)="cancel()" type="button">
+          Cancel
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
