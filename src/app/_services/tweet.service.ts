@@ -10,7 +10,7 @@ const _userTweetsState: Tweet[] = [];
   providedIn: 'root',
 })
 export class TweetService {
-  baseUrl = 'https://localhost:5001/api/v1.0/tweets/';
+  baseUrl = 'http://13.71.123.206/api/v1.0/tweets/';
 
   private userTweetsStore = new BehaviorSubject<Tweet[]>(_userTweetsState);
   public userTweets$ = this.userTweetsStore.asObservable();

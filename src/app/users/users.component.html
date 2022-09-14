@@ -1,34 +1,39 @@
 <ng-container *ngIf="allUsers$ | async as users">
-  <div *ngIf="!displayTweets">
-    <div *ngFor="let user of users" class="card text-white bg-info mb-3">
-      <div class="card-header text-center">
-        <h3>
-          {{ user.username }}
-          <span class="float-right"
-            ><button
-              class="btn btn-success my-2 my-sm-0"
-              type="button"
-              (click)="viewTweets(user)"
+  <ng-container *ngIf="users.length > 0; else noUsersFound">
+    <div *ngIf="!displayTweets">
+      <div *ngFor="let user of users" class="card text-white bg-info mb-3">
+        <div class="card-header text-center">
+          <h3>
+            {{ user.username }}
+            <span class="float-right"
+              ><button
+                class="btn btn-success my-2 my-sm-0"
+                type="button"
+                (click)="viewTweets(user)"
+              >
+                View Tweets By User
+              </button></span
             >
-              View Tweets By User
-            </button></span
-          >
-        </h3>
-      </div>
-      <div class="card-body">
-        <p class="card-title">Name: {{ user.firstName }} {{ user.lastName }}</p>
-        <p class="card-text">Email: {{ user.email }}</p>
-        <p class="card-text">Gender: {{ user.gender }}</p>
-        <p class="card-text">D.O.B: {{ user.dateOfBirth | date }}</p>
-        <p class="card-text">Contact Number: {{ user.contactNumber }}</p>
+          </h3>
+        </div>
+        <div class="card-body">
+          <p class="card-title">
+            Name: {{ user.firstName }} {{ user.lastName }}
+          </p>
+          <p class="card-text">Email: {{ user.email }}</p>
+          <p class="card-text">Gender: {{ user.gender }}</p>
+          <p class="card-text">D.O.B: {{ user.dateOfBirth | date }}</p>
+          <p class="card-text">Contact Number: {{ user.contactNumber }}</p>
+        </div>
       </div>
     </div>
-  </div>
 
-  <app-my-tweets
-    *ngIf="displayTweets"
-    [username]="username"
-    [name]="name"
-    (displayUserTweets)="backToAllUsers()"
-  ></app-my-tweets>
+    <app-my-tweets
+      *ngIf="displayTweets"
+      [username]="username"
+      [name]="name"
+      (displayUserTweets)="backToAllUsers()"
+    ></app-my-tweets>
+  </ng-container>
 </ng-container>
+<ng-template #noUsersFound> No Users Found! </ng-template>

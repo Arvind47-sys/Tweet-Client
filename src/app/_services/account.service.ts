@@ -19,7 +19,7 @@ const _allUsersState: UserDetails[] = [];
   providedIn: 'root',
 })
 export class AccountService {
-  baseUrl = 'https://localhost:5001/api/v1.0/tweets/';
+  baseUrl = 'http://13.71.123.206/api/v1.0/tweets/';
 
   private currentUserStore = new BehaviorSubject<User>(_currentUserState);
   public currentUser$ = this.currentUserStore.asObservable();

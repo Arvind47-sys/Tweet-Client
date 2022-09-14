@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: tweetclient-deployment
+    labels:
+      app: tweetclient
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tweetclient
+  template:
+    metadata:
+      labels:
+        app: tweetclient
+    spec:
+      containers:
+        - name: tweetclient
+          image: tweetappimagesacr.azurecr.io/tweetclient:v2
+          ports:
+            - containerPort: 8080
+          imagePullPolicy: IfNotPresent
+      imagePullSecrets:
+            - name: tweet-app-secret
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: tweetclientservice
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 80
+  selector:
+      app: tweetclient
+
+---
+
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+    name: tweetclient-hpa
+spec:
+    maxReplicas: 3
+    minReplicas: 2
+    scaleTargetRef:
+        apiVersion: apps/v1
+        kind: Deployment
+        name: tweetclient-deployment
+    targetCPUUtilizationPercentage: 90
+
